@@ -1,7 +1,7 @@
 require 'linked_list_item'
 
 class LinkedList
-  attr_reader :first_item
+  attr_accessor :first_item
 
   def initialize (*args)
     args.each do | item |
@@ -81,15 +81,31 @@ class LinkedList
 
   def remove(n)
     raise IndexError if @first_item.nil?
-    pointer = @first_item
-    counter = n-1
-    counter.times do 
-      pointer = pointer.next_list_item
-    end
-    if pointer.next_list_item.last?
-      pointer.next_list_item = nil
+    if n == 0
+      @first_item = @first_item.next_list_item
     else
-      @first_item = pointer.next_list_item
+      left_item = @first_item
+      counter = n-1
+      counter.times do 
+        left_item = left_item.next_list_item
+      end
+      center_item = left_item.next_list_item
+      right_item = center_item.next_list_item
+      left_item.next_list_item = right_item
+    end
+  end
+
+  # ========= Index exercise ========== #
+
+  def indexOf(arg)
+    index = 0
+    pointer = @first_item
+    while pointer
+      if pointer.payload == arg
+        return index  
+      end
+      pointer = pointer.next_list_item
+      index += 1
     end
   end
 
