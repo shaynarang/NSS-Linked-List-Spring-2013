@@ -3,10 +3,10 @@ require 'linked_list'
 
 class LinkedListItemTest < Test::Unit::TestCase
 
-  def test_06_add_item_get_item #defining a method
-    ll = LinkedList.new #creating a variable and assigning a value of the linkedlist class instance
-    ll.add_item("foo") #using a yet-to-be-defined add_class method to push "foo" into the linkedlist instance collection
-    assert_equal("foo", ll.get(0)) #asserting that "foo" is equal to the zero index of the ll variable
+  def test_06_add_item_get_item
+    ll = LinkedList.new
+    ll.add_item("foo")
+    assert_equal("foo", ll.get(0))
   end
 
   def test_07_add_multiple_items_get_item
@@ -214,6 +214,97 @@ class LinkedListItemTest < Test::Unit::TestCase
   def test_32_index_of_empty_list
     ll = LinkedList.new()
     assert_equal(nil, ll.indexOf("foo"))
+  end
+
+  # ========= Sorting Exercise ========== #
+
+  def test_33_empty_list_sorted
+    ll = LinkedList.new()
+    assert ll.sorted?
+  end
+
+  def test_34_single_item_list_sorted
+    ll = LinkedList.new("foo")
+    assert ll.sorted?
+  end
+
+  def test_35_duplicates_sorted
+    ll = LinkedList.new("foo", "foo")
+    assert ll.sorted?
+  end
+
+  def test_36_unsorted_list_sorted
+    ll = LinkedList.new("foo", "bar")
+    assert !ll.sorted?
+  end
+
+  def test_37_sorted_list_sorted
+    ll = LinkedList.new("bar", "foo")
+    assert ll.sorted?
+  end
+
+  def test_38_list_with_multiple_unsorted_types_sorted
+    ll = LinkedList.new(:b, "foo", 1, "bar", 2)
+    assert !ll.sorted?
+  end
+
+  def test_39_list_with_multiple_sorted_types_sorted
+    ll = LinkedList.new(1, 2, "bar", "foo", :b)
+    assert ll.sorted?
+  end
+
+  def test_40_sort_empty_list
+    ll = LinkedList.new()
+    sortedll = ll.sort
+    assert_equal( "| |", sortedll.to_s)
+  end
+
+  def test_41_sort_single_item_list
+    ll = LinkedList.new("foo")
+    sortedll = ll.sort
+    assert_equal( "| foo |", sortedll.to_s)
+  end
+
+  def test_42_sort_duplicates
+    ll = LinkedList.new("foo", "foo")
+    sortedll = ll.sort
+    assert_equal( "| foo, foo |", sortedll.to_s)
+  end
+
+  def test_43_sort_unsorted_list
+    ll = LinkedList.new("foo", "bar")
+    sortedll = ll.sort
+    assert_equal( "| bar, foo |", sortedll.to_s)
+  end
+
+  def test_44_sort_sorted_list
+    ll = LinkedList.new("bar", "foo")
+    sortedll = ll.sort
+    assert_equal( "| bar, foo |", sortedll.to_s)
+  end
+
+  def test_45_sort_longer_list
+    ll = LinkedList.new("bar", "adda", "grille", "abba", "foo")
+    sortedll = ll.sort
+    assert_equal( "| abba, adda, bar, foo, grille |", sortedll.to_s)
+  end
+
+  def test_46_sort_list_with_multiple_types
+    ll = LinkedList.new(:b, "foo", 1, "bar", 2)
+    sortedll = ll.sort
+    assert_equal( "| 1, 2, bar, foo, b |", sortedll.to_s)
+  end
+
+  def test_47_sort_sorted_list
+    ll = LinkedList.new("a", "b", "c", "d")
+    ll.swap_with_next(1)
+    assert_equal( "| a, c, b, d |", ll.to_s)
+  end
+
+  def test_48_sort_sorted_list
+    ll = LinkedList.new("a", "b", "c", "d")
+    ll.swap_with_next(0)
+    assert_equal( "| b, a, c, d |", ll.to_s)
   end
 
 end
